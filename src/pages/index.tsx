@@ -19,7 +19,7 @@ export default function Home() {
     setIsLoading(true);
     try {
       const response = await instance.get(
-        `/breed/${target.race.value}/images/random/12`
+        `/breed/${target.race.value.toLowerCase()}/images/random/12`
       );
       push({
         pathname: "/dog",
