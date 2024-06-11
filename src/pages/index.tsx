@@ -19,22 +19,27 @@ export default function Home() {
     event.preventDefault();
     const target = event.target as HTMLFormElement;
 
-    setIsLoading(true);
-    try {
-      const response = await instance.get(
-        `/breed/${target.race.value.toLowerCase()}/images/random/12`
-      );
-      push({
-        pathname: "/dog",
-        query: {
-          race: target.race.value.toLowerCase(),
-          result: JSON.stringify(response.data.message),
-        },
-      });
-    } catch (error: any) {
-      setIsError({ status: true, message: error.response.data.message });
-    } finally {
-      setIsLoading(false);
+    // Check the input value is empty string or not, if not then call the API
+    if (target.race.value !== "") {
+      setIsLoading(true);
+      try {
+        const response = await instance.get(
+          `/breed/${target.race.value.toLowerCase()}/images/random/12`
+        );
+
+        // if the response is successfully, then push the race & result to the dog page as query
+        push({
+          pathname: "/dog",
+          query: {
+            race: target.race.value.toLowerCase(),
+            result: JSON.stringify(response.data.message),
+          },
+        });
+      } catch (error: any) {
+        setIsError({ status: true, message: error.response.data.message });
+      } finally {
+        setIsLoading(false);
+      }
     }
   };
 
