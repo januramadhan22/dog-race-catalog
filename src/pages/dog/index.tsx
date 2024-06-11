@@ -2,23 +2,34 @@ import React from "react";
 import { useRouter } from "next/router";
 import { BiChevronLeft } from "react-icons/bi";
 import ImageCard from "@/components/fragments/ImageCard";
+import Container from "@/components/ui/Container";
+import { useTheme } from "@/context/themeContext";
 
 const DogRacePage = () => {
+  const { theme } = useTheme();
   const { query, back } = useRouter();
   const images = query.result && JSON.parse(query.result as string);
 
   return (
-    <main
-      className={`w-full flex flex-col items-center justify-center gap-5 p-10`}
-    >
-      <header className="w-full flex items-center justify-start gap-3 text-3xl font-medium text-slate-700 text-center">
+    <Container>
+      <header className="w-full flex items-center justify-start gap-3 text-3xl font-medium text-center">
         <button
           onClick={() => back()}
-          className="text-blue-600 hover:brightness-110 transition-all ease-linear"
+          className="hover:brightness-110 transition-all ease-linear"
         >
-          <BiChevronLeft className="text-4xl" />
+          <BiChevronLeft
+            className={`text-4xl  ${
+              theme === "light" ? "text-blue-700" : "text-zinc-100"
+            }`}
+          />
         </button>
-        <h1 className="leading-none">Result for {`'${query.race}'`} race</h1>
+        <h1
+          className={`leading-none  ${
+            theme === "light" ? "text-slate-700" : "text-zinc-100"
+          }`}
+        >
+          Result for {`'${query.race}'`} race
+        </h1>
       </header>
       <div className="relative w-full min-h-screen grid grid-cols-1 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-5 transition-all ease-in">
         {images?.map((image: string, index: number) => (
@@ -37,7 +48,7 @@ const DogRacePage = () => {
           </div>
         ))}
       </div>
-    </main>
+    </Container>
   );
 };
 
